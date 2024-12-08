@@ -1,16 +1,18 @@
+from src.models.createProjectsModel import CreateProject
+from src.models.updateProjectsModel import UpdProject
 from src.models.projectsModel import Project
 from src.database import fetch_query, execute_query
 
 projects_list = []
 
-def create_project(project: Project):
+def create_project(project: CreateProject):
     query = """
     INSERT INTO projects (name, description) VALUES (%s, %s);
     """
     execute_query(query, (project.name, project.description))
 
 def get_projects() -> list[Project]:
-    query = "SELECT id, name, description, created_at, updated_at FROM projects"
+    query = "SELECT * FROM projects"
     rows = fetch_query(query)
     return [Project(id=row[0], name=row[1], description=row[2], created_at=row[3], updated_at=row[4]) for row in rows]
 
