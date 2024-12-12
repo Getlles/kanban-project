@@ -60,8 +60,7 @@ def init_db():
         title VARCHAR(255),
         description TEXT,
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-        updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-        status VARCHAR(20) CHECK (status IN ('TODO', 'IN_PROGRESS', 'DONE'))
+        updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
         );
         
         CREATE TABLE IF NOT EXISTS task_logs (

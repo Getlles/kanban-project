@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.models.projectsModel import Project
-from src.models.createProjectsModel import CreateProject
-from src.models.updateProjectsModel import UpdProject
+from src.models.projects.projectsModel import Project
+from src.models.projects.createProjectsModel import CreateProject
+from src.models.projects.updateProjectsModel import UpdProject
 from typing import List, Annotated
 from src.crud.projectsCRUD import create_project, get_projects, update_project, delete_project
 

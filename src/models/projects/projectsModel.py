@@ -5,5 +5,5 @@ class Project(BaseModel):
     id: int
     name: str
     description: str
-    # created_at: str
-    # update_at: str
+    created_at: datetime
+    updated_at: datetime

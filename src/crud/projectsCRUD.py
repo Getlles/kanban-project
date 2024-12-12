@@ -1,6 +1,5 @@
-from src.models.createProjectsModel import CreateProject
-from src.models.updateProjectsModel import UpdProject
-from src.models.projectsModel import Project
+from src.models.projects.createProjectsModel import CreateProject
+from src.models.projects.projectsModel import Project
 from src.database import fetch_query, execute_query
 
 projects_list = []
