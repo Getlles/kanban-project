@@ -1,5 +1,5 @@
-from src.models.tasks.tasksModel import Tasks
-from src.models.tasks.createTasksModel import CreateTasks
+from models.tasks.tasks import Tasks
+from models.tasks.createTasks import CreateTasks
 from src.database import fetch_query, execute_query
 
 tasks_list = []

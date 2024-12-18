@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.models.users.createUsersModel import CreateUsers
-from src.models.users.usersModel import Users
+from src.models.users.createUsers import CreateUsers
+from src.models.users.users import Users
 from typing import List, Annotated
-from src.crud.usersCRUD import create_user, get_users, delete_user
+from src.crud.users import create_user, get_users, delete_user
 
 router = APIRouter()
 

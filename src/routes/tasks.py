@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.models.tasks.tasksModel import Tasks
-from src.models.tasks.createTasksModel import CreateTasks
-from src.models.tasks.updateTasksModel import UpdTasks
+from src.models.tasks.tasks import Tasks
+from src.models.tasks.createTasks import CreateTasks
+from src.models.tasks.updateTasks import UpdTasks
 from typing import List, Annotated
-from src.crud.tasksCRUD import create_task, get_tasks, update_task, delete_task
+from src.crud.tasks import create_task, get_tasks, update_task, delete_task
 
 router = APIRouter()
 

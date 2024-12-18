@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.models.projects.projectsModel import Project
-from src.models.projects.createProjectsModel import CreateProject
-from src.models.projects.updateProjectsModel import UpdProject
+from src.models.projects.projects import Project
+from src.models.projects.createProjects import CreateProject
+from src.models.projects.updateProjects import UpdProject
 from typing import List, Annotated
-from src.crud.projectsCRUD import create_project, get_projects, update_project, delete_project
+from src.crud.projects import create_project, get_projects, update_project, delete_project
 
 router = APIRouter()
 
-@router.post("/projects/", response_model=Project)
+@router.post("/projects/")
 async def add_project(project: Annotated[CreateProject, Depends()]) -> dict:
     create_project(project)
     return {"ok": True}

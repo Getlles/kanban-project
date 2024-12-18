@@ -1,5 +1,5 @@
-from src.models.users.createUsersModel import CreateUsers
-from src.models.users.usersModel import Users
+from models.users.createUsers import CreateUsers
+from models.users.users import Users
 from src.database import fetch_query, execute_query
 
 users_list = []

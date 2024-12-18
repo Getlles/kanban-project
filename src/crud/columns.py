@@ -1,5 +1,5 @@
-from src.models.columns.columnsModel import Columns
-from src.models.columns.createColumnsModel import CreateColumns
+from models.columns.columns import Columns
+from models.columns.createColumns import CreateColumns
 from src.database import fetch_query, execute_query
 
 columns_list = []

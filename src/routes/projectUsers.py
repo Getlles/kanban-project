@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Annotated, Dict
-from src.models.projectUsersModel import Project_users
-from src.crud.projectUsersCRUD import create_project_user, get_project_users, delete_project_user
-from src.crud.projectsCRUD import get_projects
-from src.crud.usersCRUD import get_users
+from src.models.project_users.projectUsers import Project_users
+from src.crud.projectUsers import create_project_user, get_project_users, delete_project_user
 
 router = APIRouter()
 

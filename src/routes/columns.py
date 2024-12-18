@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Annotated
-from src.models.columns.columnsModel import Columns
-from src.models.columns.createColumnsModel import CreateColumns
-from src.models.columns.updateColumnsModel import UpdColumns
-from src.crud.columnsCRUD import create_column, get_columns, update_column, delete_column
+from src.models.columns.columns import Columns
+from src.models.columns.createColumns import CreateColumns
+from src.models.columns.updateColumns import UpdColumns
+from src.crud.columns import create_column, get_columns, update_column, delete_column
 
 router = APIRouter()
 
