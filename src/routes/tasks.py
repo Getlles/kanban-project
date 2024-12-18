@@ -5,6 +5,7 @@ from src.models.tasks.updateTasks import UpdTasks
 from typing import List, Annotated
 from src.crud.tasks import create_task, get_tasks, update_task, delete_task
 
+
 router = APIRouter()
 
 @router.post("/tasks/", response_model=Tasks)

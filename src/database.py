@@ -24,6 +24,7 @@ def fetch_query(query, params=None): #Для селекта
     except Exception as e:
         print(f"Ошибка выполнения запроса: {e}")
 
+
 def init_db():
     cur.execute('''
         CREATE TABLE IF NOT EXISTS users (

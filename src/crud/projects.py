@@ -2,6 +2,7 @@ from models.projects.createProjects import CreateProject
 from models.projects.projects import Project
 from src.database import fetch_query, execute_query
 
+
 projects_list = []
 
 def create_project(project: CreateProject):

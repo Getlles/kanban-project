@@ -26,5 +26,4 @@ async def read_root():
 # pipreqs .
 
 # Вопросы для ПП:
-# 1. add и delete выводят ошибку, хоть и выполняет свою работу
 # 2. remove_projectuser

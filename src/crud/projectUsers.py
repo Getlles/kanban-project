@@ -1,6 +1,7 @@
 from src.models.project_users.projectUsers import Project_users
 from src.database import fetch_query, execute_query
 
+
 project_users_list = []
 
 def create_project_user(project_user: Project_users):

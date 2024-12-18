@@ -4,6 +4,7 @@ from src.models.users.users import Users
 from typing import List, Annotated
 from src.crud.users import create_user, get_users, delete_user
 
+
 router = APIRouter()
 
 @router.post("/users/", response_model=Users)

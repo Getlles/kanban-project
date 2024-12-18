@@ -2,6 +2,7 @@ from models.columns.columns import Columns
 from models.columns.createColumns import CreateColumns
 from src.database import fetch_query, execute_query
 
+
 columns_list = []
 
 def create_column(column: CreateColumns):

@@ -3,6 +3,7 @@ from typing import List, Annotated, Dict
 from src.models.project_users.projectUsers import Project_users
 from src.crud.projectUsers import create_project_user, get_project_users, delete_project_user
 
+
 router = APIRouter()
 
 @router.post("/projectusers/", response_model=Project_users)

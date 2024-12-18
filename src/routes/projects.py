@@ -5,6 +5,7 @@ from src.models.projects.updateProjects import UpdProject
 from typing import List, Annotated
 from src.crud.projects import create_project, get_projects, update_project, delete_project
 
+
 router = APIRouter()
 
 @router.post("/projects/")
