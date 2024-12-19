@@ -1,7 +1,6 @@
-from models.columns.columns import Columns
-from models.columns.createColumns import CreateColumns
+from src.models.columns.columns import Columns
+from src.models.columns.createColumns import CreateColumns
 from src.database import fetch_query, execute_query
-
 
 columns_list = []
 

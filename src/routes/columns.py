@@ -8,10 +8,10 @@ from src.crud.columns import create_column, get_columns, update_column, delete_c
 
 router = APIRouter()
 
-@router.post("/columns/", response_model=Columns)
+@router.post("/columns/")
 async def add_column(column: Annotated[CreateColumns, Depends()]) -> dict:
     create_column(column)
-    return {"ok": True}
+    return column
 
 @router.get("/columns/", response_model=List[Columns])
 async def get_all_columns() -> List[Columns]:
@@ -26,14 +26,14 @@ async def modify_column(id: int, column: Annotated[UpdColumns, Depends()]) -> di
             'position': column.position
         }
         update_column(id, new_data)
-        return {"ok": True}
+        return column
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     
-@router.delete("/columns/{column_id}")
+@router.delete("/columns/{column_id}", status_code=204)
 def remove_column(column_id: int):
     try:
         delete_column(column_id)
-        return {"message": "Column deleted successfully"}
+        return
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))

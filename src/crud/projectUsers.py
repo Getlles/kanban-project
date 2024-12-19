@@ -1,7 +1,6 @@
 from src.models.project_users.projectUsers import Project_users
 from src.database import fetch_query, execute_query
 
-
 project_users_list = []
 
 def create_project_user(project_user: Project_users):
@@ -18,8 +17,7 @@ def get_project_users() -> list[Project_users]:
 def delete_project_user(name, username):
     query = """
     DELETE FROM project_users
-    WHERE project_id = (SELECT id FROM projects WHERE name = %s )
-    AND user_id = (SELECT id FROM users WHERE username = %s );
+    WHERE project_id = %s AND user_id = %s ;
     """
     params = (name, username)
     execute_query(query, params)
