@@ -1,42 +1,85 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.models.tasks.tasks import Tasks
-from src.models.tasks.createTasks import CreateTasks
-from src.models.tasks.updateTasks import UpdTasks
+from src.models.tasks import Tasks, CreateTasks, UpdTasks
 from typing import List, Annotated
 from src.crud.tasks import create_task, get_tasks, update_task, delete_task
+from src.crud.users import get_user_by_username
+from src.crud.projectUsers import get_projects_by_user
+from src.crud.columns import get_columns
 
 router = APIRouter()
 
-@router.post("/tasks/")
-async def add_task(task: Annotated[CreateTasks, Depends()]) -> dict:
-    create_task(task)
-    return task
+@router.post("/{username}/{project_id}/{column_id}/new-task/")
+async def add_task(username, project_id, column_id, task: Annotated[CreateTasks, Depends()]) -> dict:
+    user = get_user_by_username(username)
+    if not user:
+        raise HTTPException(status_code=404)
+    projects = get_projects_by_user(user.id)
+    for project in projects:
+        if project.id == int(project_id):
+            columns = get_columns(int(project_id))
+            print("************************")
+            print(columns)
+            for column in columns:
+                if column.id == int(column_id):
+                    create_task(task)
+                    return task
 
-@router.get("/tasks/", response_model=List[Tasks])
-async def get_all_tasks() -> List[Tasks]:
-    tasks = get_tasks()
-    return tasks
+@router.get("/{username}/{project_id}/{column_id}/tasks/", response_model=List[Tasks])
+async def get_all_tasks(username, project_id, column_id) -> List[Tasks]:
+    user = get_user_by_username(username)
+    if not user:
+        raise HTTPException(status_code=404)
+    projects = get_projects_by_user(user.id)
+    for project in projects:
+        if project.id == int(project_id):
+            columns = get_columns(int(project_id))
+            for column in columns:
+                if column.id == int(column_id):
+                    tasks = get_tasks(column_id)
+                    return tasks
 
-@router.put("/tasks/{id}")
-async def modify_task(id: int, task: Annotated[UpdTasks, Depends()]) -> dict:
+@router.put("/{username}/{project_id}/{column_id}/tasks/{task_id}")
+async def modify_task(username, project_id, column_id, task_id, task: Annotated[UpdTasks, Depends()]) -> dict:
     try:
-        new_data = {
-            'column_id': task.column_id,
-            'title': task.title,
-            'description': task.description
-        }
-        update_task(id, new_data)
-        return task
+        user = get_user_by_username(username)
+        if not user:
+            raise HTTPException(status_code=404)
+        projects = get_projects_by_user(user.id)
+        for project in projects:
+            if project.id == int(project_id):
+                columns = get_columns(int(project_id))
+                for column in columns:
+                    if column.id == int(column_id):
+                        new_data = {
+                            'new_column_id': task.new_column_id,
+                            'title': task.title,
+                            'description': task.description
+                        }
+                        update_task(task_id, new_data)
+                        return task
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     
-@router.delete("/tasks/{id}", status_code=204)
-async def remove_task(id: int):
+@router.delete("/{username}/{project_id}/{column_id}/tasks/{task_id}", status_code=204)
+async def remove_task(username, project_id, column_id, task_id):
     try:
-        existing_tasks = get_tasks()
-        if not any(task.id == id for task in existing_tasks):
-            raise HTTPException(status_code=404, detail="Task not found")
-        delete_task(id)
-        return
+        user = get_user_by_username(username)
+        if not user:
+            raise HTTPException(status_code=404)
+        projects = get_projects_by_user(user.id)
+        for project in projects:
+            if project.id == int(project_id):
+                columns = get_columns(int(project_id))
+                print(columns)
+                print("-----------------------------------------")
+                for column in columns:
+                    if column.id == int(column_id):
+                        existing_tasks = get_tasks(column_id)
+                        if not any(task.id == int(task_id) for task in existing_tasks):
+                            raise HTTPException(status_code=404, detail="Task not found")
+                        print(existing_tasks)
+                        print("-----------------------------------------")
+                        delete_task(task_id)
+                        return
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

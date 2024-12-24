@@ -13,6 +13,8 @@ except Exception as e:
 def execute_query(query, params=None): #Для изменения в бд
     try:
         cur.execute(query, params)
+        if query.strip().startswith("INSERT") and "RETURNING" in query: #Для возвращения айди проекта
+            return cur.fetchone()[0]
         conn.commit()
     except Exception as e:
         print(f"Ошибка выполнения запроса: {e}")
@@ -32,7 +34,7 @@ def init_db():
         id SERIAL PRIMARY KEY,
         username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL
         );
         
         CREATE TABLE IF NOT EXISTS projects (
@@ -42,11 +44,11 @@ def init_db():
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
         updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
         );
-        
+                
         CREATE TABLE IF NOT EXISTS project_users (
         id SERIAL PRIMARY KEY,
-        project_id INT REFERENCES projects(id),
-        user_id INT REFERENCES users(id)
+        project_id INT REFERENCES projects(id) NOT NULL,
+        user_id INT REFERENCES users(id) NOT NULL
         );
         
         CREATE TABLE IF NOT EXISTS columns (

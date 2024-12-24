@@ -1,8 +1,5 @@
-from src.models.columns.columns import Columns
-from src.models.columns.createColumns import CreateColumns
+from src.models.columns import Columns, CreateColumns
 from src.database import fetch_query, execute_query
-
-columns_list = []
 
 def create_column(column: CreateColumns):
     update_query = """
@@ -16,9 +13,11 @@ def create_column(column: CreateColumns):
     """
     execute_query(query, (column.project_id, column.name, column.position))
 
-def get_columns() -> list[Columns]:
-    query = "SELECT id, project_id, name, position FROM columns ;"
-    rows = fetch_query(query)
+def get_columns(project_id) -> list[Columns]:
+    query = "SELECT id, project_id, name, position FROM columns WHERE project_id = %s;"
+    rows = fetch_query(query, (project_id,))
+    if rows is None:
+        return []
     return [Columns(id=row[0], project_id=row[1], name=row[2], position=row[3]) for row in rows]
 
 def update_column(column_id, new_data):
