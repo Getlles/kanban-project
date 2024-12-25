@@ -1,5 +1,6 @@
 from src.models.columns import Columns, CreateColumns
 from src.database import fetch_query, execute_query
+from src.crud.tasks import get_tasks
 
 def create_column(column: CreateColumns):
     update_query = """

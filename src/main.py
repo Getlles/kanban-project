@@ -4,6 +4,7 @@ from src.routes.projects import router as pr_router
 from src.routes.columns import router as cl_router
 from src.routes.tasks import router as ts_router
 from src.routes.users import router as us_router
+from src.routes.logs import router as lg_router
 
 app = FastAPI()
 
@@ -13,6 +14,7 @@ app.include_router(us_router, prefix="/api", tags=["users"])
 app.include_router(pr_router, prefix="/api", tags=["projects"])
 app.include_router(cl_router, prefix="/api", tags=["columns"])
 app.include_router(ts_router, prefix="/api", tags=["tasks"])
+app.include_router(lg_router, prefix="/api", tags=["logs"])
 
 # uvicorn src.main:app --reload
 # http://127.0.0.1:8000/docs

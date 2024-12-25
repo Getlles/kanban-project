@@ -4,6 +4,8 @@ from src.models.columns import Columns, CreateColumns, UpdColumns
 from src.crud.columns import create_column, get_columns, update_column, delete_column
 from src.crud.users import get_user_by_username
 from src.crud.projectUsers import get_projects_by_user
+from src.crud.logs import create_log
+from datetime import datetime
 
 router = APIRouter()
 
@@ -15,7 +17,8 @@ async def add_column(username, project_id, column: Annotated[CreateColumns, Depe
     projects = get_projects_by_user(user.id)
     for project in projects:
         if project.id == int(project_id):
-            create_column(column)
+            column_id = create_column(column)
+            create_log(username, project_id, column_id, None, 'create', f'Column "{column.name}" created by {username} at {datetime.now()}.')
     return column
 
 @router.get("/{username}/{project_id}/columns/", response_model=List[Columns])
@@ -43,6 +46,7 @@ async def modify_column(username, project_id,column_id, column: Annotated[UpdCol
                     'position': column.position
                 }
                 update_column(column_id, new_data)
+                create_log(username, project_id, column_id, None, 'update', f'Column "{column.name}" updated by {username} at {datetime.now()}.')
                 return column
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -57,6 +61,7 @@ def remove_column(username, project_id, column_id):
         for project in projects:
             if project.id == int(project_id):
                 delete_column(column_id)
+                create_log(username, project_id, column_id, None, 'delete', f'Column "{column_id}" deleted by {username} at {datetime.now()}.')
                 return
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))

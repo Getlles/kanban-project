@@ -1,6 +1,7 @@
 from typing import Optional
 from src.models.users import SignUsers, Users
 from src.database import fetch_query, execute_query
+from src.crud.projectUsers import get_projects_by_user
 
 def create_user(user: SignUsers):
     query = """
@@ -11,8 +12,18 @@ def create_user(user: SignUsers):
 def get_users() -> list[Users]:
     query = "SELECT * FROM users"
     rows = fetch_query(query)
-    print(query)
-    return [Users(id=row[0], username=row[1], email=row[2], password=row[3]) for row in rows]
+    users_with_projects = []
+    for row in rows:
+        user_id = row[0]
+        projects = get_projects_by_user(user_id)
+        users_with_projects.append(Users(
+            id=row[0],
+            username=row[1],
+            email=row[2],
+            password=row[3],
+            projects=projects
+        ))
+    return users_with_projects
 
 def delete_user(user_id):
     query = """

@@ -1,13 +1,12 @@
 from src.models.tasks import Tasks, CreateTasks
 from src.database import fetch_query, execute_query
 
-tasks_list = []
-
 def create_task(task: CreateTasks):
     query = """
-    INSERT INTO tasks (column_id, title, description) VALUES (%s, %s, %s)
+    INSERT INTO tasks (column_id, title, description) VALUES (%s, %s, %s) RETURNING id;
     """
-    execute_query(query, (task.column_id, task.title, task.description))
+    task_id = execute_query(query, (task.column_id, task.title, task.description))
+    return task_id
 
 def get_tasks(column_id) -> list[Tasks]:
     query = "SELECT * FROM tasks WHERE column_id = %s;"
@@ -19,7 +18,7 @@ def get_tasks(column_id) -> list[Tasks]:
 def update_task(task_id, new_data):
     query = """
     UPDATE tasks
-    SET 
+    SET
         column_id = COALESCE(%s, column_id),
         title = COALESCE(%s, title),
         description = COALESCE(%s, description),
@@ -34,5 +33,4 @@ def delete_task(task_id):
     DELETE FROM tasks
     WHERE id = %s ;
     """
-    params = (task_id,)
-    execute_query(query, params)
+    execute_query(query, (task_id,))

@@ -1,8 +1,6 @@
 from src.models.projects import CreateProject, Project
 from src.database import fetch_query, execute_query
 
-projects_list = []
-
 def create_project(project: CreateProject):
     query = """
     INSERT INTO projects (name, description) VALUES (%s, %s) RETURNING id;

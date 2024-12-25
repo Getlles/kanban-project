@@ -66,13 +66,16 @@ def init_db():
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
         updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
         );
-        
-        CREATE TABLE IF NOT EXISTS task_logs (
+                
+        CREATE TABLE IF NOT EXISTS logs (
         id SERIAL PRIMARY KEY,
-        task_id INT REFERENCES tasks(id),
-        user_id INT REFERENCES users(id),
-        action VARCHAR(255),
-        created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+        username VARCHAR(255) REFERENCES users(name),
+        project_id INT REFERENCES projects(id),
+        column_id INT,
+        task_id INT,
+        action VARCHAR(63) NOT NULL,
+        time TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+        message TEXT
         );
     ''')
     

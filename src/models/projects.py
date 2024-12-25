@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Optional, List
 from src.models.columns import Columns
 
-
 class Project(BaseModel):
     id: int
     name: str
