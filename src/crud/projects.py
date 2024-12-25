@@ -1,20 +1,18 @@
-from src.models.createProjectsModel import CreateProject
-from src.models.updateProjectsModel import UpdProject
-from src.models.projectsModel import Project
+from src.models.projects import CreateProject, Project
 from src.database import fetch_query, execute_query
-
-projects_list = []
 
 def create_project(project: CreateProject):
     query = """
-    INSERT INTO projects (name, description) VALUES (%s, %s);
+    INSERT INTO projects (name, description) VALUES (%s, %s) RETURNING id;
     """
-    execute_query(query, (project.name, project.description))
+    project_id = execute_query(query, (project.name, project.description))
+    return project_id
 
-def get_projects() -> list[Project]:
-    query = "SELECT * FROM projects"
-    rows = fetch_query(query)
-    return [Project(id=row[0], name=row[1], description=row[2], created_at=row[3], updated_at=row[4]) for row in rows]
+def add_user_to_project(project_id):
+    query = """
+    INSERT INTO project_users (project_id) VALUES (%s);
+    """
+    execute_query(query, (project_id))
 
 def update_project(project_id, new_data):
     query = """
